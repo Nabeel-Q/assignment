@@ -9,9 +9,6 @@ like health, magic points, luck, intelligence, dexterity, and strength.'''
 import random
 '''the random module allows you to create a random number generator.'''
 
-print("Hello wizard.")
-print("I have sent you this talking letter as a formal invitation to join the wizarding school of hogwarts.")
-
 if app.house == "GRYFFINDOR":
     print("ah a righteous one, you will join the Gryffindor house.")
     ST = Gryffindor.ST
@@ -131,49 +128,54 @@ else:
 print(f"*From down the hallway the quidditch coach for team {app.house} sees you*")
 print("hey hey hey")
 
-if app.quiddich == "YES":
-    print(f"ok, The game against {rival} is in three days be sure to train for it")
-elif app.quiddich == "NO":
-    print("alright, I guess I have to find somebody more capable of playing quiddich then.")
-else:
-    print("Is that a yes or a no? You know what, I'll just take it as a yes. The game is in three days")
-
-print(f"Hello one and all, todays game is going to be played by {app.house} against {rival}")
-print(f"*the score of the game is 7-3 {rival} is winning*")
-print("the golden snitch has been thrown out")
-print("*a dice will be rolled on whether or not you catch the golden snitch*")
-
 catch = 0
 dice2 = random.randrange(1, 21)
 
-if dice2 >= 15:
-    catch = 1
-    DX += 5
-    ST += 5
-    print(f"The golden snitch has been caught team {app.house} wins. (DX = +5, ST = +5)")
-elif dice2 >= 10 and dice2 < 15:
-    catch = 1
-    print(f"The golden snitch has been caught team {app.house} wins.")
-elif dice2 >= 5 and dice2 < 10:
-    print(f"ooh, team {app.house} almost caught the snitch but team {rival} has caught it and wins the game.")
-else:
-    DX -= 5
-    ST -= 5
-    print(f"The golden snitch has been caught team {rival} wins.")
-
+if app.quiddich == "YES":
+    print(f"ok, The game against {rival} is in three days be sure to train for it")
+    print(f"Hello one and all, todays game is going to be played by {app.house} against {rival}")
+    print(f"*the score of the game is 7-3 {rival} is winning*")
+    print("the golden snitch has been thrown out")
+    print("*a dice will be rolled on whether or not you catch the golden snitch*")
+    if dice2 >= 15:
+        catch = 1
+        DX += 5
+        ST += 5
+        print(f"The golden snitch has been caught team {app.house} wins. (DX = +5, ST = +5)")
+    elif dice2 >= 10 and dice2 < 15:
+        catch = 1
+        print(f"The golden snitch has been caught team {app.house} wins.")
+    elif dice2 >= 5 and dice2 < 10:
+        print(f"ooh, team {app.house} almost caught the snitch but team {rival} has caught it and wins the game.")
+    else:
+        DX -= 5
+        ST -= 5
+        print(f"The golden snitch has been caught team {rival} wins.")
+elif app.quiddich == "NO":
+    print("alright, I guess I have to find somebody more capable of playing quiddich then.")
+    print("Game Over")
+    exit()
 
 # challenge 3
 
-print(f"*The game is over and you see a player from {rival} walking to you*")
+print("Are you ready for challenge 3?")
 
-if catch == 1:
-    print("I know you cheated, I challenge you to a battle at midnight don't chicken out.")
+if app.ready == "YES":
+    print(f"*The game is over and you see a player from {rival} walking to you*")
+    if catch == 1:
+        print("I know you cheated, I challenge you to a battle at midnight don't chicken out.")
+    else:
+        print("ha, I knew you were bad your not as fast as me")
+        print("how about this since you lost to me in quidditch. How about we battle at midnight to see what your really worth.")
+elif app.ready == "NO":
+    print("Game Over")
+    exit()
 else:
-    print("ha, I knew you were bad your not as fast as me")
-    print("how about this since you lost to me in quidditch. How about we battle at midnight to see what your really worth.")
+    print("You need to input yes or no.")
+    exit()
 
 print("*it is now midnight and you show up for the battle*")
-print("I thought you would chicken out, i guess your braver than I thought")
+print("I thought you would chicken out, I guess your braver than I thought")
 
 dice3 = random.randrange(1, 21)
 
@@ -217,17 +219,23 @@ else:
 print("*after using expelliamus you start fist fighting each other*")
 print("your strength and dexterity will be the deciding factor in this fight")
 
-if DX >= 10 and ST >= 10:
-    RHP -= 100
-elif DX <= 10 and ST <= 10:
-    HP -= 100
-else:
+if DX > RDX and ST > RST:
     RHP -= 50
+elif DX < RDX and ST < RST:
     HP -= 50
-
-if RHP <= 0:
-    print("you win")
-elif HP <= 0:
-    print("you lose")
+elif DX < RDX and ST > RST:
+    RHP -= 25
+    HP -= 25
+elif DX > RDX and ST < RST:
+    RHP -= 25
+    HP -= 25
 else:
-    print("the fight has ended in a draw")
+    RHP -= 100
+    HP -= 100
+
+if HP > RHP:
+    print("You win")
+elif HP < RHP:
+    print("You lose")
+else:
+    print("The fight has ended in a draw")
